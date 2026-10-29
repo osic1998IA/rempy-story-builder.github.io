@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rempy Story Builder</title><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#f3f0e8;--pn:#faf8f2;--cd:#fff;--ln:#ddd5c4;--tx:#1f1d2b;--mu:#5a5668;--ac:#4b36c9;--acs:#ebe6f8;--onac:#fff;--dn:#b3261e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16151c;--pn:#1d1c25;--cd:#252430;--ln:#3a384a;--tx:#ecebf3;--mu:#a6a3b8;--ac:#9b8cff;--acs:#2b2748;--onac:#16151c;--dn:#ff8a80}}
+:root[data-theme="dark"]{--bg:#16151c;--pn:#1d1c25;--cd:#252430;--ln:#3a384a;--tx:#ecebf3;--mu:#a6a3b8;--ac:#9b8cff;--acs:#2b2748;--onac:#16151c;--dn:#ff8a80}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px system-ui,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--pn);border-bottom:1px solid var(--ln)}
+h1{margin:0;font:700 18px Georgia,serif}
+main{display:grid;grid-template-columns:380px 1fr;min-height:calc(100vh - 62px)}
+aside{background:var(--pn);border-right:1px solid var(--ln);padding:16px;display:flex;flex-direction:column;gap:18px}
+section{padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+@media (max-width:820px){main{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--ln)}}
+button,select,input{font:inherit;color:var(--tx)}
+.b{border:1px solid var(--ln);background:var(--cd);border-radius:8px;min-height:36px;padding:0 12px;font-weight:600;cursor:pointer}
+.b.p{background:var(--ac);border-color:var(--ac);color:var(--onac)}
+.i{width:32px;height:32px;min-height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ln);background:var(--cd);border-radius:8px;cursor:pointer;flex:none}
+.i.on{background:var(--ac);border-color:var(--ac);color:var(--onac)}.i.d:hover{color:var(--dn);border-color:var(--dn)}
+.i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hd{display:flex;justify-content:space-between;align-items:center;font:700 12px system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
+.it{background:var(--cd);border:1px solid var(--ln);border-radius:10px;padding:6px 8px;display:flex;align-items:center;gap:8px;font-weight:600;margin-top:6px}
+.it .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tg{font:600 11px system-ui;background:var(--acs);color:var(--ac);border-radius:6px;padding:3px 7px;border:0}
+.bd{margin:4px 0 0 10px;padding:6px 0 6px 12px;border-left:2px solid var(--ln);display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--mu)}
+.bd input,.bd select{background:var(--cd);border:1px solid var(--ln);border-radius:6px;padding:5px 8px;width:100%}
+.row{display:flex;gap:6px;align-items:center}.hint{font-size:12px;color:var(--mu)}
+input[type=color]{width:28px;height:28px;padding:0;border:0;background:none;flex:none}
+.box{border:2px solid var(--ac);background:var(--acs);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.box.sub{border:1px solid var(--ln);background:var(--pn);border-radius:10px;padding:8px}
+.bh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.bh .sp{flex:1}
+.lbl{font:700 12px system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--ac)}
+.dg{background:var(--cd);border:1px solid var(--ln);border-left-width:6px;border-radius:12px;padding:10px 14px}
+.nm{display:flex;align-items:center;gap:8px;font-weight:700;flex-wrap:wrap}
+.nm select{border:0;background:var(--acs);color:var(--ac);border-radius:6px;padding:3px 6px;font:600 11px system-ui}
+.tx{font:16px/1.5 Georgia,serif;margin:6px 0 0;outline:0;border-radius:4px;min-height:24px;white-space:pre-wrap}
+.tx:focus{background:var(--acs)}.tx:empty:before{content:"Escribe el diálogo. Si lo dejas vacío, el personaje solo aparece o sale de escena.";color:var(--mu)}
+.tx[data-l]:empty:before{content:"Escribe la traducción…"}.fs{background:var(--cd);border:1px solid var(--ln);border-radius:6px;padding:3px 6px;font-size:12px}.cnt{font-size:11px;color:var(--mu)}.snd{display:flex;align-items:center;gap:10px;border:1px dashed var(--ln);background:var(--cd);border-radius:12px;padding:8px 12px;font-weight:600}
+.vin{width:100%;margin-top:6px;border:1px solid var(--ln);background:var(--pn);border-radius:6px;padding:5px 8px}
+.emp{border:1px dashed var(--ln);border-radius:10px;padding:10px;text-align:center;color:var(--mu);font-size:13px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9}
+.mo{background:var(--cd);border:1px solid var(--ln);border-radius:14px;padding:20px;max-width:420px;width:100%}
+.mo h2{margin:0 0 8px;font-size:17px;color:var(--dn)}.mo p{margin:0 0 16px;line-height:1.5}.mo .row{justify-content:flex-end}
+.b.dn{background:var(--dn);border-color:var(--dn);color:var(--bg)}
+</style></head><body>
+<header><h1>Rempy Story Builder</h1><div class="row" style="flex-wrap:wrap">
+<input type="file" id="fi" accept=".txt,.rpy,.json" hidden><button class="b" id="bi">Importar proyecto</button><button class="b" id="bt">Guardar .txt</button><button class="b p" id="br">Guardar .rpy</button></div></header>
+<main><aside id="res"></aside><section id="vis"></section></main><div id="mod"></div>
+<script>
+const MAX=250,I={up:'<path d="M12 19V5M5 12l7-7 7 7"/>',dn:'<path d="M12 5v14M5 12l7 7 7-7"/>',tr:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',ch:'<path d="M9 6l6 6-6 6"/>',pl:'<path d="M12 5v14M5 12h14"/>',go:'<path d="M5 12h14M13 6l6 6-6 6"/>',mi:'<path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>'};
+const ic=(n,a='',c='',l='')=>`<button class="i ${c}" ${a} aria-label="${l}"><svg viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg></button>`;
+const uid=()=>Math.random().toString(36).slice(2,9),$=i=>document.getElementById(i);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ident=s=>(String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9_]+/g,'_').replace(/^_+|_+$/g,'')||'x');
+let S=null;try{S=JSON.parse(localStorage.getItem('rempy-sb'))}catch(e){}
+if(!S||!S.tl)S={bgs:[{id:'b1',name:'aula_dia',type:'escena'}],chars:[{id:'c1',name:'Mara',color:'#d1495b',exprs:['feliz','triste']}],sounds:[],decs:[],tl:[],tgt:'root'};
+let modal=null,open={};fixS();
+const save=()=>{try{localStorage.setItem('rempy-sb',JSON.stringify(S))}catch(e){}};
+function fixS(){if(!S.langs||!S.langs.length)S.langs=[{id:'espanol',name:'Español'}];if(!S.lang||!S.langs.some(l=>l.id===S.lang))S.lang=S.langs[0].id;const w=a=>a.forEach(it=>{if(typeof it.t2==='string'){if(it.t2.trim()){(it.tr=it.tr||{}).english=it.t2;if(!S.langs.some(l=>l.id==='english'))S.langs.push({id:'english',name:'English'})}delete it.t2}kids(it).forEach(w)});w(S.tl)}
+const BASE=()=>S.langs[0].id,lname=id=>(S.langs.find(l=>l.id===id)||{}).name||id,T=(o,f,l)=>(!l||l===BASE())?o[f]:((o.tr&&o.tr[l])||o[f]),DATA=()=>JSON.stringify({langs:S.langs,lang:S.lang,bgs:S.bgs,chars:S.chars,sounds:S.sounds,decs:S.decs,tl:S.tl});
+const strip=id=>{const w=a=>a.forEach(it=>{if(it.tr)delete it.tr[id];kids(it).forEach(w)});w(S.tl);S.decs.forEach(d=>{if(d.tr)delete d.tr[id];d.opts.forEach(o=>{if(o.tr)delete o.tr[id]})})};
+const by=(l,id)=>S[l].find(x=>x.id===id);const cdef=c=>c.exprs.includes(c.def)?c.def:c.exprs[0],cpos=(c,it)=>(it&&it.pos)||c.pos||'izquierda';
+function findItem(arr,id){for(const it of arr){if(it.id===id)return it;for(const a of kids(it)){const r=findItem(a,id);if(r)return r}}return null}
+function kids(it){return it.kind==='scene'?[it.ch]:(it.br?Object.values(it.br):[])}
+function find(arr,id,oa,oi){for(let i=0;i<arr.length;i++){const it=arr[i];if(it.id===id)return{arr,i,oa,oi};for(const a of kids(it)){const r=find(a,id,arr,i);if(r)return r}}return null}
+function getArr(k){if(k==='root')return S.tl;const[id,s]=k.split(':'),it=findItem(S.tl,id);if(!it)return null;if(s==='ch')return it.ch;it.br=it.br||{};return it.br[s]||(it.br[s]=[])}
+const deep=a=>a.reduce((n,it)=>n+1+kids(it).reduce((m,x)=>m+deep(x),0),0);
+function addItem(it){let a=getArr(S.tgt);if(!a){S.tgt='root';a=S.tl}a.push(it)}
+function rmWhere(a,p){for(let i=a.length-1;i>=0;i--){if(p(a[i]))a.splice(i,1);else kids(a[i]).forEach(x=>rmWhere(x,p))}}
+function cntWhere(a,p){return a.reduce((n,it)=>n+(p(it)?deep([it]):kids(it).reduce((m,x)=>m+cntWhere(x,p),0)),0)}
+const preds={bgs:id=>it=>it.kind==='scene'&&it.bg===id,chars:id=>it=>it.kind==='dialog'&&it.char===id,sounds:id=>it=>it.kind==='sound'&&it.snd===id,decs:id=>it=>(it.kind==='decision'||it.kind==='conseq')&&it.dec===id};
+function mv(id,d){const r=find(S.tl,id);if(!r)return;const{arr,i}=r,it=arr[i];
+ if(d>0){if(i<arr.length-1){const n=arr[i+1];arr.splice(i,1);if(n.kind==='scene'&&it.kind!=='scene')n.ch.unshift(it);else arr.splice(i+1,0,it)}else if(r.oa){arr.splice(i,1);r.oa.splice(r.oi+1,0,it)}}
+ else{if(i>0){const p=arr[i-1];arr.splice(i,1);if(p.kind==='scene'&&it.kind!=='scene')p.ch.push(it);else arr.splice(i-1,0,it)}else if(r.oa){arr.splice(i,1);r.oa.splice(r.oi,0,it)}}}
+const ctl=id=>ic('up',`data-act="mv" data-id="${id}" data-d="-1"`,'','Subir')+ic('dn',`data-act="mv" data-id="${id}" data-d="1"`,'','Bajar')+ic('tr',`data-act="del" data-id="${id}"`,'d','Eliminar');
+const tgtB=k=>S.tgt===k?`<span class="tg">Aquí se agrega</span>`:`<button class="b" style="min-height:28px" data-act="tgt" data-k="${k}">Agregar aquí</button>`;
+function opts(d,o){return d?d.opts:[]}
+function endBg(a,b){for(const it of a){if(it.kind==='scene')b=endBg(it.ch,it.bg);else if(it.kind==='decision'||it.kind==='conseq'){const d=by('decs',it.dec);if(d&&d.opts.length){const e=d.opts.map(o=>endBg((it.br||{})[o.id]||[],b));b=e.every(x=>x===e[0])?e[0]:'?'}}}return b}
+const bgName=b=>b==='?'?'depende de la opción':b?((by('bgs',b)||{}).name||'(eliminado)'):'ninguno';
+const optBg=(k,cb)=>`<div class="bh"><span class="tg">Fondo al entrar: ${esc(bgName(cb))}</span><select class="fs" data-bgadd="${k}" aria-label="Cambiar fondo en esta opción"><option value="">Cambiar fondo…</option>${S.bgs.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}</select></div>`;
+const optEnd=(a,cb)=>{const e=endBg(a,cb);return `<div class="cnt">Al terminar: ${e===cb?'se conserva el fondo '+esc(bgName(cb)):'el fondo pasa a ser '+esc(bgName(e))}</div>`};
+function addScene(bg){const it={id:uid(),kind:'scene',bg,ch:[]},k=S.tgt;if(k.endsWith(':ch')){const r=find(S.tl,k.split(':')[0]);if(r)r.arr.splice(r.i+1,0,it);else S.tl.push(it)}else addItem(it);S.tgt=it.id+':ch'}
+const swapBase=id=>{const ob=BASE(),sw=(o,f)=>{const old=o[f],nv=(o.tr&&o.tr[id])||old;o.tr=o.tr||{};o.tr[ob]=old;delete o.tr[id];o[f]=nv};walkD(S.tl,sw);S.decs.forEach(d=>{sw(d,'q');d.opts.forEach(o=>sw(o,'label'))});const i=S.langs.findIndex(l=>l.id===id),l=S.langs.splice(i,1)[0];S.langs.unshift(l)};
+function rItems(a,ctx){let b=ctx;return a.map(it=>{const h=rItem(it,b);b=endBg([it],b);return h}).join('')||`<div class="emp">Vacío. Elige “Agregar aquí” y usa → en los recursos.</div>`}
+function vsel(it,c){const vs=S.sounds.filter(s=>s.type==='voz'&&(s.char||'')===(c?c.id:''));return vs.length?`<select class="vin" data-s="item" data-id="${it.id}" data-f="voice" aria-label="Voz"><option value="">Elegir voz…</option>${vs.map(s=>`<option value="${s.id}" ${s.id===it.voice?'selected':''}>${esc(s.name)}</option>`).join('')}</select>`:`<div class="hint" style="margin-top:6px">${c?esc(c.name)+' no tiene voces.':'El narrador no tiene voces.'} Crea un sonido de tipo voz y asígnalo a ${c?'este personaje':'«Sin personaje»'}.</div>`}
+function rItem(it,cb){
+ if(it.kind==='scene'){const b=by('bgs',it.bg);return `<div class="box"><div class="bh"><span class="lbl">Escena</span><b style="font:700 17px Georgia,serif">${esc(b?b.name:'(fondo eliminado)')}</b>${cb&&cb!==it.bg?`<span class="cnt">cambia desde ${esc(bgName(cb))}</span>`:''}<span class="sp"></span>${tgtB(it.id+':ch')}${ctl(it.id)}</div>${rItems(it.ch,it.bg)}</div>`}
+ if(it.kind==='dialog'){const c=by('chars',it.char),col=c?c.color:'#6b6780',len=(S.lang===BASE()?it.text||'':(it.tr&&it.tr[S.lang])||'').length;
+  return `<div class="dg" style="border-left-color:${col}"><div class="nm"><span style="color:${col}">${esc(c?c.name:'Narrador')}</span>${c&&!(it.text||'').trim()?`<span class="tg">${it.hide||cpos(c,it)==='oculto'?'Sale de escena':'Aparece en escena'}</span>`:''}${c?`<span class="cnt">Expresión</span><select data-s="item" data-id="${it.id}" data-f="expr" aria-label="Expresión">${c.exprs.map(e=>`<option ${e===it.expr?'selected':''}>${esc(e)}</option>`).join('')}</select><span class="cnt">Posición</span><select data-s="item" data-id="${it.id}" data-f="pos" aria-label="Posición">${[['izquierda','izquierda'],['centro','centro'],['derecha','derecha'],['oculto','no aparece']].map(([p,l])=>`<option value="${p}" ${p===cpos(c,it)?'selected':''}>${l}</option>`).join('')}</select>${ic('x',`data-act="hid" data-id="${it.id}"`,it.hide?'on':'','Salir de escena al terminar')}`:''}${ic('mi',`data-act="voice" data-id="${it.id}"`,typeof it.voice==='string'?'on':'','Voz')}<span class="sp" style="flex:1"></span><span class="cnt">${len}/${MAX}</span>${ctl(it.id)}</div>
+  ${S.lang!==BASE()?`<div class="cnt" style="margin-top:6px">${esc(lname(BASE()))}: ${esc(it.text)||'(vacío)'}</div>`:''}
+  <div class="tx" contenteditable="plaintext-only" data-id="${it.id}" ${S.lang!==BASE()?`data-l="${S.lang}"`:''} role="textbox" aria-label="Texto del diálogo (${esc(lname(S.lang))})">${esc(S.lang===BASE()?it.text:(it.tr&&it.tr[S.lang])||'')}</div>
+  ${typeof it.voice==='string'?vsel(it,c):''}</div>`}
+ if(it.kind==='sound'){const s=by('sounds',it.snd);return `<div class="snd"><span class="tg">sonido</span><span style="flex:1">Se cambió el sonido a ${esc(s?s.name:'(eliminado)')}</span>${ctl(it.id)}</div>`}
+ const d=by('decs',it.dec),isD=it.kind==='decision';
+ let h=`<div class="box" style="background:var(--cd)"><div class="bh"><span class="lbl">${isD?'Decisión':'Consecuencia'}</span>`;
+ if(isD)h+=`<b>${esc(d?d.name:'(eliminada)')}</b>`;else h+=`<span class="cnt">Decisión</span><select data-s="item" data-id="${it.id}" data-f="dec" aria-label="Decisión"><option value="">Elegir decisión…</option>${S.decs.map(x=>`<option value="${x.id}" ${x.id===it.dec?'selected':''}>${esc(x.name)}</option>`).join('')}</select>`;
+ h+=`<span class="sp"></span>${ctl(it.id)}</div>`;
+ if(isD&&d&&d.q)h+=`<div style="font:16px Georgia,serif">${esc(T(d,'q',S.lang))}</div>`;
+ if(d)h+=`<div style="display:flex;gap:10px;flex-wrap:wrap">`+d.opts.map(o=>{const k=it.id+':'+o.id;it.br=it.br||{};return `<div class="box sub" style="flex:1;min-width:240px"><div class="bh"><b>${isD?'Opción':'Si'}: ${esc(T(o,'label',S.lang))}</b><span class="cnt">${esc(d.v)} = ${esc(o.val||o.label)}</span><span class="sp"></span>${tgtB(k)}</div>${optBg(k,cb)}${rItems(it.br[o.id]||[],cb)}${optEnd(it.br[o.id]||[],cb)}</div>`}).join('')+`</div>`;
+ h+=`<div class="cnt">Después de esta ${isD?'decisión':'consecuencia'}: ${endBg([it],cb)===cb?'se conserva el fondo '+esc(bgName(cb)):'el fondo es '+esc(bgName(endBg([it],cb)))}</div>`;return h+`</div>`}
+const adr=(l,s,id)=>`<div class="it">${ic('ch',`data-act="op" data-id="${id}"`,'','Desplegar')}`;
+function rRes(){
+ const sec=(t,a,l,rows)=>`<div><div class="hd">${t}${ic('pl',`data-act="${a}"`,'',l)}</div>${rows}</div>`;
+ const row=(l,id,left,right,body)=>`<div class="it">${ic('ch',`data-act="op" data-id="${id}"`,'','Desplegar')}${left}<span class="n">${right}</span>${ic('go',`data-act="use-${l}" data-id="${id}"`,'on','Agregar a la vista')}${ic('tr',`data-act="dres" data-s="${l}" data-id="${id}"`,'d','Eliminar')}</div>${open[id]?`<div class="bd">${body}</div>`:''}`;
+ const f=(s,id,fl,v,ph='')=>`<input data-s="${s}" data-id="${id}" data-f="${fl}" value="${esc(v)}" placeholder="${ph}">`;
+ const lf=(t,h,x)=>`<label style="display:flex;flex-direction:column;gap:3px"><b style="color:var(--tx)">${t}</b>${x}<span class="hint">${h}</span></label>`;const tin=(s,id,o,l,ph,v)=>`<input data-s="${s}" data-id="${id}" ${o?`data-o="${o}"`:''} data-f="tr" data-l="${l}" value="${esc(v||'')}" placeholder="${esc(ph)}" aria-label="${esc(ph)}">`;const sel=(s,id,fl,v,ops)=>`<select data-s="${s}" data-id="${id}" data-f="${fl}">${ops.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`;
+ const bg=S.bgs.map(b=>row('bgs',b.id,'',`${esc(b.name)} <span class="tg">${b.type}</span>`,`${lf('Nombre del fondo','Se usa en el nombre del archivo de imagen.',f('bgs',b.id,'name',b.name))}${lf('Tipo de fondo','Backgrounds o escena. Ambos crean una caja de escena en la vista.',sel('bgs',b.id,'type',b.type,['backgrounds','escena']))}<span>images/bg/${esc(ident(b.name))}.png</span>`)).join('');
+ const ch=`<div class="it"><span class="n" style="color:var(--mu);padding-left:6px">Narrador <span class="tg">sin nombre ni sprite</span></span>${ic('go','data-act="use-nar"','on','Agregar a la vista')}</div>`+S.chars.map(c=>row('chars',c.id,`<input type="color" data-s="chars" data-id="${c.id}" data-f="color" value="${c.color}" aria-label="Color del nombre" title="Color del nombre">`,esc(c.name),`${lf('Nombre del personaje','Aparece arriba de cada diálogo. El círculo de color de la fila cambia el color del nombre.',f('chars',c.id,'name',c.name))}<label style="display:flex;flex-direction:column;gap:3px"><b style="color:var(--tx)">Posición en pantalla</b><select data-s="chars" data-id="${c.id}" data-f="pos">${[['izquierda','Izquierda'],['centro','Centro'],['derecha','Derecha'],['oculto','No aparece en pantalla']].map(([p,l])=>`<option value="${p}" ${p===(c.pos||'izquierda')?'selected':''}>${l}</option>`).join('')}</select><span class="hint">Principales a la izquierda, secundarios a la derecha. Cada diálogo puede cambiarla.</span></label><b style="color:var(--tx)">Expresiones</b><div class="row" style="flex-wrap:wrap">${c.exprs.map(e=>`<span class="tg"><button data-act="ddef" data-id="${c.id}" data-e="${esc(e)}" aria-label="Usar por defecto" style="background:none;border:0;cursor:pointer;padding:0 4px 0 0;color:inherit">${e===cdef(c)?'★':'☆'}</button>${esc(e)} <button data-act="dex" data-id="${c.id}" data-e="${esc(e)}" aria-label="Quitar" style="background:none;border:0;cursor:pointer;padding:0 0 0 4px;color:inherit">×</button></span>`).join('')}</div><span class="hint">★ = expresión por defecto: va primera y se usa al agregar diálogos. Toca una estrella para cambiarla.</span><b style="color:var(--tx)">Agregar expresión</b><div class="row"><input id="ne-${c.id}" aria-label="Nueva expresión" placeholder="ej. feliz"><button class="b" data-act="aex" data-id="${c.id}">+</button></div><span>images/${esc(ident(c.name))}/sprite_${esc(ident(c.name))}_${esc(ident(c.exprs[0]||'expresion'))}.png</span>`)).join('');
+ const sd=S.sounds.map(s=>{const pc=by('chars',s.char),p={music:'audio/bgm/'+ident(s.name),efectos:'audio/sfx/'+ident(s.name),voz:'audio/voice/'+ident(pc?pc.name:'personaje')+'/'+ident(s.name)}[s.type];
+  return row('sounds',s.id,'',`${esc(s.name)} <span class="tg">${s.type}</span>`,`${lf('Nombre del sonido','Se usa en el nombre del archivo de audio.',f('sounds',s.id,'name',s.name))}${lf('Tipo de sonido','Music, efectos o voz.',sel('sounds',s.id,'type',s.type,['music','efectos','voz']))}${s.type==='voz'?`<b style="color:var(--tx)">Personaje de la voz</b><select data-s="sounds" data-id="${s.id}" data-f="char" aria-label="Personaje"><option value="">Sin personaje (narrador)</option>${S.chars.map(c=>`<option value="${c.id}" ${c.id===s.char?'selected':''}>${esc(c.name)}</option>`).join('')}</select>`:''}<span>${p}.mp3</span>`)}).join('');
+ const dc=S.decs.map(d=>row('decs',d.id,'',esc(d.name),`${lf('Nombre de la decisión','Cómo la identificas en la lista y en el guion.',f('decs',d.id,'name',d.name,'ej. confiar_en_leo'))}${lf('Texto de la pregunta','Lo que el jugador lee en el menú.',f('decs',d.id,'q',d.q,'ej. ¿Le cuentas el secreto a Leo?'))}${lf('Variable','Donde Ren’Py guarda la elección. Sin espacios.',f('decs',d.id,'v',d.v,'ej. confia'))}<b style="color:var(--tx)">Opciones</b><span class="hint">Texto que ve el jugador y valor que se guarda en la variable (True, False o un número; vacío = el mismo texto).</span>`+d.opts.map(o=>`<div class="row">${f('decs',d.id,'label',o.label,'Texto de la opción').replace('data-f','data-o="'+o.id+'" data-f')}${f('decs',d.id,'val',o.val,'Valor (ej. True)').replace('data-f','data-o="'+o.id+'" data-f')}${ic('x',`data-act="dop" data-id="${d.id}" data-o="${o.id}"`,'d','Quitar opción')}</div>`).join('')+`<button class="b" data-act="aop" data-id="${d.id}">+ Opción</button>`+S.langs.slice(1).map(l=>`<b style="color:var(--tx)">Traducción: ${esc(l.name)}</b>${tin('decs',d.id,'',l.id,'Pregunta en '+l.name,(d.tr||{})[l.id])}${d.opts.map(o=>tin('decs',d.id,o.id,l.id,'Opción en '+l.name+': '+o.label,(o.tr||{})[l.id])).join('')}`).join(''))).join('')+`<button class="b" style="margin-top:8px" data-act="use-con">+ Ítem de consecuencia</button>`;
+ const lg=`<div><div class="hd">Idiomas</div>`+S.langs.map((l,i)=>`<div class="it"><span class="n">${esc(l.name)} ${i?'':'<span class="tg">por defecto</span>'} ${l.id===S.lang?'<span class="tg">viendo</span>':''}</span><button class="b" style="min-height:28px" data-act="lang" data-id="${l.id}">Ver</button>${i?`<button class="b" style="min-height:28px" data-act="defl" data-id="${l.id}">Por defecto</button>`:''}${i?ic('tr',`data-act="dlang" data-id="${l.id}"`,'d','Eliminar idioma'):''}</div>`).join('')+`<div class="row" style="margin-top:8px"><input id="nl" aria-label="Nombre del nuevo idioma" placeholder="ej. English" style="flex:1;background:var(--cd);border:1px solid var(--ln);border-radius:6px;padding:5px 8px"><button class="b" data-act="alang">+ Agregar</button></div><span class="hint">El idioma por defecto es en el que escribes el texto original; con “Por defecto” puedes cambiarlo. El guion se guarda en el idioma que estés viendo y las traducciones van en otro archivo.</span></div>`;$('res').innerHTML=lg+sec('Fondos','abg','Nuevo fondo',bg)+sec('Personajes','ach','Nuevo personaje',ch)+sec('Sonido','asn','Nuevo sonido',sd)+sec('Decisiones','adc','Nueva decisión',dc)}
+function rVis(){$('vis').innerHTML=`<div class="bh"><span class="lbl">Guion</span>${S.langs.map(l=>`<button class="b ${l.id===S.lang?'p':''}" style="min-height:28px" data-act="lang" data-id="${l.id}">${esc(l.name)}</button>`).join('')}<span class="sp"></span>${tgtB('root')}</div>`+rItems(S.tl,null)}
+function rMod(){$('mod').innerHTML=modal?`<div class="ov"><div class="mo" role="alertdialog"><h2>Advertencia</h2><p>${esc(modal.msg)}</p><div class="row"><button class="b" data-act="no">Cancelar</button><button class="b dn" data-act="yes">${esc(modal.btn||'Eliminar')}</button></div></div></div>`:''}
+function render(){const a=document.activeElement;rRes();rVis();rMod();save()}
+function ask(msg,fn,btn){modal={msg,fn,btn};rMod()}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const d=t.dataset,A=d.act;
+ if(A==='no'){modal=null;rMod();return}if(A==='yes'){const f=modal.fn;modal=null;f();render();return}
+ if(A==='op')open[d.id]=!open[d.id];
+ else if(A==='abg')S.bgs.push({id:uid(),name:'fondo_'+(S.bgs.length+1),type:'backgrounds'});
+ else if(A==='ach')S.chars.push({id:uid(),name:'Personaje '+(S.chars.length+1),color:'#3a86ff',exprs:['normal'],def:'normal',pos:S.chars.length?'derecha':'izquierda'});
+ else if(A==='asn')S.sounds.push({id:uid(),name:'sonido_'+(S.sounds.length+1),type:'music',char:''});
+ else if(A==='adc')S.decs.push({id:uid(),name:'decision_'+(S.decs.length+1),q:'',v:'decision_'+(S.decs.length+1),opts:[{id:uid(),label:'Opción 1',val:''},{id:uid(),label:'Opción 2',val:''}]});
+ else if(A==='aop'){const c=by('decs',d.id);c.opts.push({id:uid(),label:'Opción '+(c.opts.length+1),val:''})}
+ else if(A==='dop'){const c=by('decs',d.id);if(c.opts.length>1)c.opts=c.opts.filter(o=>o.id!==d.o)}
+ else if(A==='aex'){const v=$('ne-'+d.id).value.trim(),c=by('chars',d.id);if(v&&!c.exprs.includes(v))c.exprs.push(v)}
+ else if(A==='ddef'){const c=by('chars',d.id);c.def=d.e;c.exprs=[d.e,...c.exprs.filter(x=>x!==d.e)]}
+ else if(A==='lang')S.lang=d.id;
+ else if(A==='defl'){const nl=S.langs.find(x=>x.id===d.id),ol=S.langs[0];ask(`“${nl.name}” pasará a ser el idioma por defecto (el texto original). Los textos que aún no tengan traducción en ${nl.name} conservarán el texto de ${ol.name} hasta que los traduzcas.`,()=>swapBase(nl.id),'Cambiar');return}
+ else if(A==='alang'){const nm=$('nl').value.trim(),id=ident(nm);if(nm&&!S.langs.some(l=>l.id===id)){S.langs.push({id,name:nm});S.lang=id}}
+ else if(A==='dlang'){const l=S.langs.find(x=>x.id===d.id);ask(`Se eliminará el idioma “${l.name}” y todas sus traducciones. Esta acción no se puede deshacer.`,()=>{S.langs=S.langs.filter(x=>x.id!==d.id);strip(d.id);if(S.lang===d.id)S.lang=BASE()});return}
+ else if(A==='hid'){const it=findItem(S.tl,d.id);it.hide=!it.hide}
+ else if(A==='dex'){const c=by('chars',d.id);if(c.exprs.length>1)c.exprs=c.exprs.filter(x=>x!==d.e)}
+ else if(A==='use-bgs')addScene(d.id);
+ else if(A==='use-chars'){const c=by('chars',d.id);addItem({id:uid(),kind:'dialog',char:c.id,expr:cdef(c),text:'',voice:null})}
+ else if(A==='use-nar')addItem({id:uid(),kind:'dialog',char:null,expr:'',text:'',voice:null});
+ else if(A==='use-sounds')addItem({id:uid(),kind:'sound',snd:d.id});
+ else if(A==='use-decs')addItem({id:uid(),kind:'decision',dec:d.id,br:{}});
+ else if(A==='use-con')addItem({id:uid(),kind:'conseq',dec:'',br:{}});
+ else if(A==='tgt')S.tgt=d.k;
+ else if(A==='mv')mv(d.id,+d.d);
+ else if(A==='voice'){const it=findItem(S.tl,d.id);it.voice=typeof it.voice==='string'?null:''}
+ else if(A==='del'){const r=find(S.tl,d.id),n=deep([r.arr[r.i]])-1;ask('Se eliminará este elemento'+(n?` y los ${n} elementos que contiene`:'')+'. Esta acción no se puede deshacer.',()=>{const q=find(S.tl,d.id);if(q)q.arr.splice(q.i,1)});return}
+ else if(A==='dres'){const l=d.s,o=by(l,d.id),n=cntWhere(S.tl,preds[l](d.id));ask(`Se eliminará “${o.name}”`+(n?` y también ${n} elemento(s) de la vista que lo usan`:'')+'. Esta acción no se puede deshacer.',()=>{S[l]=S[l].filter(x=>x.id!==d.id);rmWhere(S.tl,preds[l](d.id))});return}
+ render()});
+document.addEventListener('change',e=>{const d=e.target.dataset;if(d.bgadd){if(e.target.value){S.tgt=d.bgadd;addScene(e.target.value)}render();return}if(!d.f)return;let o=d.s==='item'?findItem(S.tl,d.id):by(d.s,d.id);if(o&&d.o)o=o.opts.find(x=>x.id===d.o);if(o){if(d.f==='tr')(o.tr=o.tr||{})[d.l]=e.target.value;else o[d.f]=e.target.value}render()});
+document.addEventListener('input',e=>{const t=e.target;if(t.classList.contains('tx')){const it=findItem(S.tl,t.dataset.id);if(t.dataset.l){(it.tr=it.tr||{})[t.dataset.l]=t.textContent;save();return}it.text=t.textContent;const c=t.parentElement.querySelector('.cnt');if(c)c.textContent=it.text.length+'/'+MAX;save()}});
+document.addEventListener('focusout',e=>{const t=e.target;if(!t.classList||!t.classList.contains('tx'))return;if(t.dataset.l){render();return}const r=find(S.tl,t.dataset.id);if(!r)return;let it=r.arr[r.i],at=r.i;
+ while(it.text.length>MAX){let c=it.text.lastIndexOf(' ',MAX);if(c<1)c=MAX;const rest=it.text.slice(c).trim();it.text=it.text.slice(0,c).trim();const n={id:uid(),kind:'dialog',char:it.char,expr:it.expr,text:rest,voice:null};r.arr.splice(++at,0,n);it=n}
+ render()});
+const q=s=>'"'+String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n')+'"';
+const val=o=>{const v=(o.val||'').trim();return !v?q(o.label):/^(True|False|None|-?\d+(\.\d+)?)$/.test(v)?v:q(v)};
+function gen(){const cur=S.lang,L=[],ph='# Generado con Rempy Story Builder';L.push(ph,'');
+ S.chars.forEach(c=>L.push(`define ${ident(c.name)} = Character(${q(c.name)}, color=${q(c.color)})`));
+ S.chars.forEach(c=>c.exprs.forEach(e=>L.push(`image ${ident(c.name)} ${ident(e)} = ${q(`images/${ident(c.name)}/sprite_${ident(c.name)}_${ident(e)}.png`)}`)));
+ S.bgs.forEach(b=>L.push(`image bg ${ident(b.name)} = ${q(`images/bg/${ident(b.name)}.png`)}`));
+ const vs=[...new Set(S.decs.map(d=>ident(d.v)))];vs.forEach(v=>L.push(`default ${v} = None`));
+ L.push('','label start:');let shown={};
+ const em=(a,n)=>{const p='    '.repeat(n);if(!a.length)L.push(p+'pass');a.forEach(it=>{
+  if(it.kind==='scene'){const b=by('bgs',it.bg);if(!b)return;L.push(`${p}scene bg ${ident(b.name)}`+(b.type==='backgrounds'?' with fade':''));shown={};if(it.ch.length)em(it.ch,n)}
+  else if(it.kind==='dialog'){const c=by('chars',it.char);const em0=c&&!(it.text||'').trim(),pos=c?(em0&&it.hide?'oculto':cpos(c,it)):'',key=it.expr+'|'+pos;if(c&&pos==='oculto'){if(shown[c.id]){L.push(`${p}hide ${ident(c.name)}`);delete shown[c.id]}}else if(c&&it.expr&&shown[c.id]!==key){L.push(`${p}show ${ident(c.name)} ${ident(it.expr)} at ${{izquierda:'left',centro:'center',derecha:'right'}[pos]}`);shown[c.id]=key}
+   const vn=em0?null:by('sounds',it.voice);if(vn)L.push(`${p}voice ${q(`audio/voice/${ident(c?c.name:'narrador')}/${ident(vn.name)}.mp3`)}`);if(!em0)L.push(`${p}${c?ident(c.name)+' ':''}${q(T(it,'text',cur)||'...')}`);if(c&&it.hide&&shown[c.id]){L.push(`${p}hide ${ident(c.name)}`);delete shown[c.id]}}
+  else if(it.kind==='sound'){const s=by('sounds',it.snd);if(!s)return;const n=ident(s.name),pc=by('chars',s.char);L.push(p+(s.type==='music'?`play music ${q(`audio/bgm/${n}.mp3`)}`:s.type==='efectos'?`play sound ${q(`audio/sfx/${n}.mp3`)}`:`voice ${q(`audio/voice/${ident(pc?pc.name:'personaje')}/${n}.mp3`)}`))}
+  else if(it.kind==='decision'){const d=by('decs',it.dec);if(!d)return;const s0={...shown};L.push(p+'menu:');if(d.q)L.push(`${p}    ${q(T(d,'q',cur))}`);d.opts.forEach(o=>{L.push(`${p}    ${q(T(o,'label',cur))}:`,`${p}        $ ${ident(d.v)} = ${val(o)}`);shown={...s0};em((it.br||{})[o.id]||[],n+2)});shown={}}
+  else if(it.kind==='conseq'){const d=by('decs',it.dec);if(!d)return;let f=1;d.opts.forEach(o=>{const b=(it.br||{})[o.id]||[];if(!b.length)return;L.push(`${p}${f?'if':'elif'} ${ident(d.v)} == ${val(o)}:`);f=0;em(b,n+1)})}})};
+ em(S.tl,1);L.push('    return','','# ---REMPY-DATA---','# '+DATA());return L.join('\n')}
+function genTxt(){const cur=S.lang,L=[];const em=a=>a.forEach(it=>{
+ if(it.kind==='scene'){const b=by('bgs',it.bg);if(b)L.push(`[fondo ${b.name}]`);em(it.ch)}
+ else if(it.kind==='dialog'){const c=by('chars',it.char),v=by('sounds',it.voice);if(v)L.push(`[voz ${v.name}]`);if(c&&!(it.text||'').trim()){L.push(it.hide||cpos(c,it)==='oculto'?`[sale ${c.name}]`:`[${c.name} aparece${it.expr?' ('+it.expr+', '+cpos(c,it)+')':''}]`)}else L.push(`${c?c.name+(it.expr?' ['+it.expr+', '+(cpos(c,it)==='oculto'?'no aparece':cpos(c,it))+']':''):'narrador'}: ${T(it,'text',cur)||'...'}`);if(c&&(it.text||'').trim()&&it.hide)L.push(`[sale ${c.name}]`)}
+ else if(it.kind==='sound'){const s=by('sounds',it.snd);if(s)L.push(`[${s.type==='music'?'musica':s.type==='efectos'?'efecto de sonido':'voz'} ${s.name}]`)}
+ else{const d=by('decs',it.dec);if(!d)return;const isD=it.kind==='decision';L.push(`@${isD?'pregunta':'consecuencia'} -> $`+d.v);if(isD&&d.q)L.push(`pregunta: ${T(d,'q',cur)}`);d.opts.forEach(o=>{const b=(it.br||{})[o.id]||[];if(!isD&&!b.length)return;L.push(`respuesta ${T(o,'label',cur)}${isD&&o.val?' (valor: '+o.val+')':''}`,'{');em(b);L.push('}')})}});
+ em(S.tl);L.push('','# ---REMPY-DATA--- (no borres esta línea: sirve para importar el proyecto)','# '+DATA());return L.join('\n')}
+const walkD=(a,f)=>a.forEach(it=>{if(it.kind==='dialog')f(it,'text');kids(it).forEach(x=>walkD(x,f))});
+function trRows(l,cur){const m=new Map(),add=(o,f)=>{const a=T(o,f,cur),b=T(o,f,l);if(a&&b&&a!==b)m.set(a,b)};walkD(S.tl,add);S.decs.forEach(d=>{add(d,'q');d.opts.forEach(o=>add(o,'label'))});return m}
+function genTrRpy(){const cur=S.lang,L=['# Traducciones generadas con Rempy Story Builder','# Los textos "old" son los del guion, escrito en: '+lname(cur),''];S.langs.filter(l=>l.id!==cur).forEach(l=>{const m=trRows(l.id,cur);if(!m.size){L.push('# '+l.name+': sin traducciones todavía','');return}L.push('translate '+l.id+' strings:');m.forEach((v,k)=>L.push('    old '+q(k),'    new '+q(v)));L.push('')});return L.join('\n')}
+function genTrTxt(){const cur=S.lang,L=['# Traducciones. Primera línea: texto del guion ('+lname(cur)+'). Segunda línea (>): traducción.',''];S.langs.filter(l=>l.id!==cur).forEach(l=>{L.push('[idioma '+l.name+']');trRows(l.id,cur).forEach((v,k)=>L.push(k,'> '+v));L.push('')});return L.join('\n')}
+async function saveBoth(n1,f1,n2,f2){await dl(n1,f1);if(S.langs.length>1){await new Promise(r=>setTimeout(r,500));await dl(n2,f2)}}
+async function dl(name,fn){const txt=fn();try{const d=window.claude&&await claude.use('downloads');if(d){await d.save({filename:name,data:txt});return}}catch(e){if(e&&e.code==='declined')return}
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));a.download=name.replace(/\.rpy\.txt$/,'.rpy');document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+$('br').onclick=()=>saveBoth('guion_'+S.lang+'.rpy.txt',gen,'traducciones.rpy.txt',genTrRpy);$('bt').onclick=()=>saveBoth('guion_'+S.lang+'.txt',genTxt,'traducciones.txt',genTrTxt);$('bi').onclick=()=>$('fi').click();
+$('fi').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const t=String(r.result),i=t.lastIndexOf('# ---REMPY-DATA---'),j=JSON.parse(t.slice(i).split('\n')[1].slice(2));if(!j.tl)throw 0;S={langs:j.langs,lang:j.lang,bgs:j.bgs||[],chars:j.chars||[],sounds:j.sounds||[],decs:j.decs||[],tl:j.tl,tgt:'root'};fixS();render()}catch(x){alert('No se pudo importar: el archivo no contiene un proyecto de Rempy Story Builder.')}};r.readAsText(f);e.target.value=''};
+render();
+</script></body></html>
